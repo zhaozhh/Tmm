@@ -18,10 +18,11 @@ clc
 % U=load([pathname,'\','potentail.dat']);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bound state,
+global E MT
 U = square_potential_well(1000);
 figure
 plot(U(:,1),U(:,2),'LineWidth',1);  
-N=1000;   % The number of the values of energy you want to calculate, it can be adjusted
+N=100;   % The number of the values of energy you want to calculate, it can be adjusted
 E = linspace(0.001,max(U(:,2))-0.1, N);
 MT=zeros(N,1); % The array stores the value transmission probability T  for scattering
 % states, or stores the transmission coefficent T11 for bound states.
@@ -34,12 +35,19 @@ figure
 plot(E,MT,'LineWidth',1);  
     xlabel('E')
     ylabel('T ')
-%axis([E(1) E(end) -10 10])
-zerosposition=find(MT==0);%find out zeros.
-fprintf('The number of peaks is  £º%i\n', length(zerosposition));
+axis([E(1) E(end) -1 1])
+options = optimset('TolFun',1e-3);
+En=fsolve(@f,(1:10:100),options);
+En=roundn(En,-4);% Keep three decimal places after the decimal point, rounded
+En=unique(En); % Remove the same item.
+fprintf('The number of eigenvalues is: %i\n', length(En));
 disp('The corresponding reduced eigenvalues of energy are£º');
-fprintf('E  ->£º%f\n', E(zerosposition));
+fprintf('E  ->£º%f\n', En);
 disp('------------------');
+function yy=f(x)
+global E MT
+yy = spline(E,MT,x);
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,7 +72,7 @@ disp('------------------');
 %     ylabel('T ')
 % %axis([E(1) E(end) -10 10])
 % pointPeakes=find(diff(sign(diff(MT)))<0)+1;%find out all the maximum.
-% fprintf('The number of peaks is  £º%i\n', length(pointPeakes));
+% fprintf('The number of peaks is: %i\n', length(pointPeakes));
 % disp('The corresponding reduced values of energy are£º');
 % fprintf('E  ->£º%f\n', E(pointPeakes));
 % disp('------------------');
