@@ -41,8 +41,8 @@ En=fsolve(@f,(1:10:100),options);
 En=roundn(En,-4);% Keep three decimal places after the decimal point, rounded
 En=unique(En); % Remove the same item.
 fprintf('The number of eigenvalues is: %i\n', length(En));
-disp('The corresponding reduced eigenvalues of energy are£º');
-fprintf('E  ->£º%f\n', En);
+disp('The corresponding reduced eigenvalues of energy are: ');
+fprintf('E  ->: %f\n', En);
 disp('------------------');
 function yy=f(x)
 global E MT
@@ -73,8 +73,8 @@ end
 % %axis([E(1) E(end) -10 10])
 % pointPeakes=find(diff(sign(diff(MT)))<0)+1;%find out all the maximum.
 % fprintf('The number of peaks is: %i\n', length(pointPeakes));
-% disp('The corresponding reduced values of energy are£º');
-% fprintf('E  ->£º%f\n', E(pointPeakes));
+% disp('The corresponding reduced values of energy are :');
+% fprintf('E  ->: %f\n', E(pointPeakes));
 % disp('------------------');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function U = square_potential_well(N)
