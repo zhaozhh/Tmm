@@ -6,6 +6,7 @@
 % Space dimension =1;
 % Equation of motion  is d^2 y / dx^2 = (V - E) y
 % main.m
+% Be tested can be ran in octave
 
 clc
 % First you need to provide the file which hold the potential datas or
@@ -19,7 +20,7 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bound state,
 global E MT
-U = square_potential_well(1000);
+U = squarePotentialWell(1000);
 figure
 plot(U(:,1),U(:,2),'LineWidth',1);  
 N=100;   % The number of the values of energy you want to calculate, it can be adjusted
@@ -38,16 +39,13 @@ plot(E,MT,'LineWidth',1);
 axis([E(1) E(end) -1 1])
 options = optimset('TolFun',1e-3);
 En=fsolve(@f,(1:10:100),options);
-En=roundn(En,-4);% Keep three decimal places after the decimal point, rounded
+En=round(En*1000)/1000;% Keep three decimal places after the decimal point, rounded
 En=unique(En); % Remove the same item.
 fprintf('The number of eigenvalues is: %i\n', length(En));
 disp('The corresponding reduced eigenvalues of energy are: ');
 fprintf('E  ->: %f\n', En);
 disp('------------------');
-function yy=f(x)
-global E MT
-yy = spline(E,MT,x);
-end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,29 +75,8 @@ end
 % fprintf('E  ->: %f\n', E(pointPeakes));
 % disp('------------------');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function U = square_potential_well(N)
 
-U = ones(N,1)*100;
-x= linspace(-2,2, N);
-for i = 1 : N
-   if abs(x(i)) <= 1
-       U(i) = 0; 
-   end 
-end
-U=[x',U];
- end
 
-function U = square_potential_barrier(N)
-
-U = zeros(N,1);
-x= linspace(-2,2, N);
-for i = 1 : N
-   if abs(x(i)) <= 1
-       U(i) = 2; 
-   end 
-end
-U=[x',U];
- end
 
 
 
