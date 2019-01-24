@@ -38,13 +38,15 @@ plot(E,MT,'LineWidth',1);
     ylabel('T ')
 axis([E(1) E(end) -1 1])
 options = optimset('TolFun',1e-3);
-En=fsolve(@f,(1:10:100),options);
+En=fsolve(@fspline,(1:10:100),options);
 En=round(En*1000)/1000;% Keep three decimal places after the decimal point, rounded
 En=unique(En); % Remove the same item.
 fprintf('The number of eigenvalues is: %i\n', length(En));
 disp('The corresponding reduced eigenvalues of energy are: ');
 fprintf('E  ->: %f\n', En);
 disp('------------------');
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
